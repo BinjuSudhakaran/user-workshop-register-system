@@ -8,7 +8,10 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
+
+//import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 @Table(name="registration")
@@ -21,11 +24,13 @@ public class Registration
 	
 	@ManyToOne
     @JoinColumn(name = "user_id")
+	
 	@JsonIgnore
     private User user;
 
     @ManyToOne
     @JoinColumn(name = "workshop_id")
+   
     @JsonIgnore
     private Workshop workshop;
 

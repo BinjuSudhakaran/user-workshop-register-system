@@ -1,5 +1,7 @@
 package com.example.workshopsystem.service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -29,6 +31,20 @@ public class RegistrationService
 		
 		Workshop workshop=workshopRepository.findById(workshopId).orElseThrow(()->new RuntimeException("worksop not found"));
 		
+		List<Registration> existingRegistrations = registrationRepository.findByUser(user);
+
+	        if (existingRegistrations.size() >= 5) 
+	        {
+	            throw new RuntimeException("A user can only register for 5 workshops.");
+	        }
+
+	        boolean alreadyRegistered = existingRegistrations.stream().anyMatch(r -> r.getWorkshop().getWorkshopId() == workshopId);
+	       
+	        if (alreadyRegistered)
+	        {
+	            throw new RuntimeException("User is already registered for this workshop.");
+	        }
+
 		Registration registration=new Registration();
 		registration.setWorkshop(workshop);
 		registration.setUser(user);

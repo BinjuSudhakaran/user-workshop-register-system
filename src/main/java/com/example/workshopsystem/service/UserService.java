@@ -13,9 +13,6 @@ import com.example.workshopsystem.repository.UserRepository;
 public class UserService
 {
 	
-	
-	
-	
 	@Autowired
 	private UserRepository userRepository;
 

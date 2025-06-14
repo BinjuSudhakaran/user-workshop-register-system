@@ -17,8 +17,7 @@ public class RegistrationController
 {
 	@Autowired
 	private RegistrationService registrationService;
-	
-	
+		
 	@PostMapping
 	public ResponseEntity<Object> registerForWorkshop(@RequestParam long userId,@RequestParam long workshopId)
 	{

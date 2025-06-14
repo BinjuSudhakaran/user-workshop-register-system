@@ -8,6 +8,8 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 
 
 @Entity
@@ -20,6 +22,7 @@ public class User
 	private String userName;
 	
 	@OneToMany(mappedBy = "user" ,cascade=CascadeType.ALL)
+	//@JsonManagedReference
 	private List<Registration> registrations;
 	
 	
