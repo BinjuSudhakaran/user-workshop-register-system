@@ -34,6 +34,7 @@ public class RegistrationService
 		List<Registration> existingRegistrations = registrationRepository.findByUser(user);
 
 	        if (existingRegistrations.size() >= 5) 
+	        	
 	        {
 	            throw new RuntimeException("A user can only register for 5 workshops.");
 	        }
@@ -51,5 +52,21 @@ public class RegistrationService
 		
 		return registrationRepository.save(registration);
 	}
+
+
+//	public void deleteRegistration(long registrationId) 
+//	{
+//		registrationRepository.deleteById(registrationId);
+//		
+//	}
+	
+	public void deleteRegistration(long registrationId)
+	{
+	    Registration registration = registrationRepository.findById(registrationId)
+	        .orElseThrow(() -> new RuntimeException("Registration not found with ID: " + registrationId));
+	    
+	    registrationRepository.delete(registration);
+	}
+
 
 }

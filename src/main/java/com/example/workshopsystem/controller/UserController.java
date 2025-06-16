@@ -35,10 +35,25 @@ public class UserController
 		return userService.viewUser();
 		
 	}
-	@GetMapping("/viewWorkshops/{userId}")
+	/*@GetMapping("/viewWorkshops/{userId}")
 	public List<Workshop> viewWorkshops(@PathVariable long userId )
 	{	
 			return userService.viewWorkshops(userId);		
+		
+	}*/
+	
+	
+	
+	@GetMapping("/viewWorkshops/{userId}")
+	public ResponseEntity<?> viewWorkshops(@PathVariable long userId) {
+	    try {
+	        List<Workshop> workshops = userService.viewWorkshops(userId);
+	        return ResponseEntity.ok(workshops);
+	    } 
+	    catch (RuntimeException e)
+	    {
+	        return ResponseEntity.badRequest().body(e.getMessage());
+	    } 
 		
 	}
 	

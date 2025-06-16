@@ -24,13 +24,11 @@ public class Registration
 	
 	@ManyToOne
     @JoinColumn(name = "user_id")
-	
 	@JsonIgnore
     private User user;
 
     @ManyToOne
-    @JoinColumn(name = "workshop_id")
-   
+    @JoinColumn(name = "workshop_id") 
     @JsonIgnore
     private Workshop workshop;
 
