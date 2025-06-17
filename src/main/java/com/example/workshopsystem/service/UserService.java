@@ -4,9 +4,12 @@ import java.util.List;
 import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import com.example.workshopsystem.dto.UserDto;
+import com.example.workshopsystem.model.Registration;
 import com.example.workshopsystem.model.User;
-import com.example.workshopsystem.model.Workshop;
+import com.example.workshopsystem.repository.RegistrationRepository;
 import com.example.workshopsystem.repository.UserRepository;
+
 
 
 @Service
@@ -15,7 +18,10 @@ public class UserService
 	
 	@Autowired
 	private UserRepository userRepository;
-
+	
+	@Autowired
+	private RegistrationRepository registrationRepository;
+	
 	public User addUser(User user) 
 	{
 		return userRepository.save(user);
@@ -27,11 +33,17 @@ public class UserService
 		return userRepository.findAll();
 	}
 
-	public List<Workshop> viewWorkshops(long userId)
+	public List<UserDto> viewRegistration(long userId) throws Exception
 	{
-		User user=userRepository.findById(userId).orElseThrow(()->new RuntimeException("User not found"));
+		User user=userRepository.findById(userId).orElseThrow(()->new RuntimeException("user not found"));
 		
-		return user.getRegistrations().stream().map(r -> r.getWorkshop()).collect(Collectors.toList());
+		List<Registration> registration=registrationRepository.findByUser(user);
+		
+		
+		return registration.stream().map(r->new UserDto(r.getRegistraionId(),
+				r.getWorkshop().getWorkshopId(),
+				r.getWorkshop().getWorkshopName())).collect(Collectors.toList());
 	}
 
+	
 }

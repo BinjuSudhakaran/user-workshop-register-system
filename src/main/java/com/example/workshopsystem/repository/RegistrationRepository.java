@@ -15,4 +15,6 @@ public interface RegistrationRepository extends JpaRepository<Registration,Long>
 
 	List<Registration> findByUser(User user);
 
+	
+
 }

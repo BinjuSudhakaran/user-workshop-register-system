@@ -8,9 +8,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-
 import com.example.workshopsystem.model.Registration;
-import com.example.workshopsystem.repository.UserRepository;
 import com.example.workshopsystem.service.RegistrationService;
 
 @RestController
