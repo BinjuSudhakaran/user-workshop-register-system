@@ -1,10 +1,12 @@
 package com.example.workshopsystem.service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.example.workshopsystem.dto.WorkshopDto;
 import com.example.workshopsystem.model.Workshop;
 import com.example.workshopsystem.repository.WorkshopRepository;
 
@@ -24,5 +26,14 @@ public class WorkshopService
 	
 		return workshopRepository.findAll();
 	}
+	/*public List<WorkshopDto> searchWorkshop(String name)
+	{
+		
+		return workshopRepository.findByworkshopnameContainingIgnoreCase(name)
+				.stream()
+				.map(w->(new WorkshopDto(
+						w.getWorkshopId(),
+						w.getWorkshopname()))).collect(Collectors.toList());
+	}*/
 
 }

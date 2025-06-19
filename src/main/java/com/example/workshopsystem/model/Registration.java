@@ -32,6 +32,15 @@ public class Registration
     @JsonIgnore
     private Workshop workshop;
 
+    private boolean isattended;
+	public boolean isIsattended() {
+		return isattended;
+	}
+
+	public void setIsattended(boolean isattended) {
+		this.isattended = isattended;
+	}
+
 	public long getRegistraionId() {
 		return registraionId;
 	}
