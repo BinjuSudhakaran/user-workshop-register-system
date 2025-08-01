@@ -19,7 +19,7 @@ import com.example.workshopsystem.service.WorkshopService;
 
 
 @RestController
-@RequestMapping("/user")
+@RequestMapping("/api/user")
 public class UserController 
 {
 	@Autowired
@@ -27,34 +27,12 @@ public class UserController
 	
 	@Autowired
 	private WorkshopService workshopService;
-	@PostMapping
-	public User addUser(@RequestBody User user)
-	{
-		return userService.addUser(user);
-		
-	}
+	
 	@GetMapping
 	public List<User> viewUser()
 	{
 		return userService.viewUser();		
 	}
-	
-	/*@GetMapping("/viewWorkshops/{userId}")
-	public List<UserDto> viewRegistration(@PathVariable Long userId)
-	{
-		try {
-			return userService.viewRegistration(userId);
-			
-		} 
-		catch (Exception e)
-		{
-			
-			e.printStackTrace();
-		}
-		return null;
-	}*/
-	
-	
 	
 	@GetMapping("/viewWorkshops/{userId}")
     public ResponseEntity<?> viewRegistration(@PathVariable long userId) 

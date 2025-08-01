@@ -6,6 +6,7 @@ import java.util.stream.Collectors;
 import org.apache.catalina.connector.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import com.example.workshopsystem.dto.UserDto;
 import com.example.workshopsystem.model.Registration;
@@ -25,10 +26,22 @@ public class UserService
 	@Autowired
 	private RegistrationRepository registrationRepository;
 	
-	public User addUser(User user) 
-	{
-		return userRepository.save(user);
+	
+	
+	
+	
+	@Autowired
+    private PasswordEncoder passwordEncoder;
+
+    
+	public User addUser(User user) {
+	    String encodedPassword = passwordEncoder.encode(user.getPassword());
+	    User newUser = new User(user.getName(), user.getEmail(), encodedPassword, user.getRole());
+	    return userRepository.save(newUser);
 	}
+
+	
+	
 
 	public List<User> viewUser()
 	{
@@ -39,8 +52,6 @@ public class UserService
 	public List<UserDto> viewRegistration(long userId) throws Exception
 	{
 		User user=userRepository.findById(userId).orElseThrow(()->new RuntimeException("user not found"));
-		
-		//Registration reg=registrationRepository
 		
 		List<Registration> registration=registrationRepository.findByUser(user);
 		if(registration.isEmpty())
@@ -67,6 +78,14 @@ public class UserService
 		registrationRepository.save(registered);				
 		return ResponseEntity.ok("Attendance Marked");
 
+	}
+
+
+
+
+	public List<User> viewAllUsers()
+	{
+		return userRepository.findAll();
 	}
 
 	

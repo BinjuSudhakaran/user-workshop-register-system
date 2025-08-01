@@ -23,6 +23,8 @@ public interface RegistrationRepository extends JpaRepository<Registration,Long>
 	//boolean existsByworkshopIdAnduserId(long workshopId, long userId);
 
 	Registration findByWorkshopWorkshopIdAndUserUserId(long workshopId, long userId);
+
+	List<Registration> findByWorkshopWorkshopId(long workshopId);
 	
 	
 	//@Query("update Registration r set r.isattended=true where r.registrationId=registrationId and r.userId=userId");

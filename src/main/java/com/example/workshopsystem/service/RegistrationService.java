@@ -1,11 +1,9 @@
 package com.example.workshopsystem.service;
 
 import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
-
-
 import com.example.workshopsystem.model.Registration;
 import com.example.workshopsystem.model.User;
 import com.example.workshopsystem.model.Workshop;
@@ -24,11 +22,21 @@ public class RegistrationService
 	@Autowired
 	private RegistrationRepository registrationRepository;
 	
-
-	public Registration registerForWorkshop(long userId, long workshopId) throws RuntimeException
+	
+	private User getLoggedInUser() 
+    {
+    	
+        String email = SecurityContextHolder.getContext().getAuthentication().getName();
+        System.out.println(email);
+        return userRepository.findByEmail(email).orElseThrow(() -> new RuntimeException("User not found"));
+    }
+	
+	
+	public Registration registerForWorkshop(long workshopId) throws RuntimeException
 	{
-		User user=userRepository.findById(userId).orElseThrow(()->new RuntimeException("user not found"));
 		
+		
+		User user=getLoggedInUser() ;
 		Workshop workshop=workshopRepository.findById(workshopId).orElseThrow(()->new RuntimeException("worksop not found"));
 		
 		List<Registration> existingRegistrations = registrationRepository.findByUser(user);
@@ -52,21 +60,27 @@ public class RegistrationService
 		
 		return registrationRepository.save(registration);
 	}
-
-
-//	public void deleteRegistration(long registrationId) 
-//	{
-//		registrationRepository.deleteById(registrationId);
-//		
-//	}
+	
+	
 	
 	public void deleteRegistration(long registrationId)
 	{
+		User user=getLoggedInUser() ;
+		
 	    Registration registration = registrationRepository.findById(registrationId)
 	        .orElseThrow(() -> new RuntimeException("Registration not found with ID: " + registrationId));
 	    
-	    registrationRepository.delete(registration);
+	    if(user.getUserId()==registration.getUser().getUserId())
+	    {
+	    	registrationRepository.delete(registration);
+		}
+	    else
+	    {
+	    	throw new RuntimeException("Not Authorized");
+	    }
 	}
+	    
+	    
 
 
 }

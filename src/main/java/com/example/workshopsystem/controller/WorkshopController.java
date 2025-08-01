@@ -35,22 +35,6 @@ public class WorkshopController
 			return workshopService.viewWorkshop();	
 		}	
 		
-		/*@GetMapping("/searchWorkshop")
-		public ResponseEntity<?> searchWorkshop(@PathVariable String name)
-		{
-			try
-			{
-				List<WorkshopDto> workshop=workshopService.searchWorkshop(name);
-				return ResponseEntity.ok(workshop);
-				
-				
-			}
-			catch(Exception e)
-			{
-				return ResponseEntity.status(404).body(e.getMessage());
-			}
-		}*/
-
 }
 
 
