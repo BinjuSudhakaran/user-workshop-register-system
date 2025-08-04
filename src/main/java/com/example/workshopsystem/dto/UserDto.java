@@ -2,6 +2,7 @@ package com.example.workshopsystem.dto;
 
 public class UserDto
 {
+	
 	private long registrationId;
 	private long workshopId;
 	private String workName;
@@ -30,5 +31,4 @@ public class UserDto
 		this.workName = workName;
 	}
 	
-
 }

@@ -6,9 +6,11 @@ import java.util.stream.Collectors;
 import org.apache.catalina.connector.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import com.example.workshopsystem.dto.UserDto;
+import com.example.workshopsystem.dto.UsersDto;
 import com.example.workshopsystem.model.Registration;
 import com.example.workshopsystem.model.User;
 import com.example.workshopsystem.repository.RegistrationRepository;
@@ -28,8 +30,6 @@ public class UserService
 	
 	
 	
-	
-	
 	@Autowired
     private PasswordEncoder passwordEncoder;
 
@@ -40,19 +40,34 @@ public class UserService
 	    return userRepository.save(newUser);
 	}
 
-	
-	
-
 	public List<User> viewUser()
 	{
 		
 		return userRepository.findAll();
 	}
 
-	public List<UserDto> viewRegistration(long userId) throws Exception
+	public List<UsersDto> viewAllUsers()
 	{
-		User user=userRepository.findById(userId).orElseThrow(()->new RuntimeException("user not found"));
+		List<User> user= userRepository.findAll();
+		return user.stream().map(u->new UsersDto(u.getUserId(),u.getName(),u.getEmail(),u.getPassword(),
+				u.getRegistrations())).collect(Collectors.toList());
+				
 		
+	}
+
+
+	private User getLoggedInUser() 
+    {
+    	
+        String email = SecurityContextHolder.getContext().getAuthentication().getName();
+        System.out.println(email);
+        return userRepository.findByEmail(email).orElseThrow(() -> new RuntimeException("User not found"));
+    }
+	
+
+	public List<UserDto> viewRegistration() 
+	{
+		User user=getLoggedInUser() ;
 		List<Registration> registration=registrationRepository.findByUser(user);
 		if(registration.isEmpty())
 		{
@@ -65,8 +80,13 @@ public class UserService
 				r.getWorkshop().getWorkshopName())).collect(Collectors.toList());
 	}
 
-	public ResponseEntity<?> attendWorkshop(long workshopId,long userId) throws Exception
+
+
+
+	public ResponseEntity<?> attendWorkshop(long workshopId) 
 	{
+		User user=getLoggedInUser() ;
+		long userId=user.getUserId();
 		Registration registered=registrationRepository.findByWorkshopWorkshopIdAndUserUserId(workshopId,userId);
 		
 		if(registered==null)
@@ -77,16 +97,8 @@ public class UserService
 		registered.setIsattended(true);
 		registrationRepository.save(registered);				
 		return ResponseEntity.ok("Attendance Marked");
-
 	}
-
-
-
-
-	public List<User> viewAllUsers()
-	{
-		return userRepository.findAll();
-	}
+	
 
 	
 }

@@ -34,60 +34,34 @@ public class UserController
 		return userService.viewUser();		
 	}
 	
-	@GetMapping("/viewWorkshops/{userId}")
-    public ResponseEntity<?> viewRegistration(@PathVariable long userId) 
+	@GetMapping("/viewWorkshops")
+	public ResponseEntity<?> viewRegistration()
 	{
-        try
-        {
-            List<UserDto> dtos = userService.viewRegistration(userId);
-            return ResponseEntity.ok(dtos);
-        } 
-        catch (Exception e) 
-        {
-            return ResponseEntity.status(404).body(e.getMessage());
-        }
+		try
+		{
+			List<UserDto> dtos = userService.viewRegistration();
+			return ResponseEntity.ok(dtos);
+		} 
+		catch (Exception e) 
+		{
+			return ResponseEntity.status(404).body(e.getMessage());
+		}
 	}
-	@PutMapping("/attendWorkshop")
-	public ResponseEntity<?> attendworkshop(@RequestParam long workshopId,@RequestParam long userId)
+
+	@PutMapping("/attendWorkshop/{workshopId}")
+	public ResponseEntity<?> attendworkshop(@PathVariable long workshopId)
 	{
 		try 
 		{
-			return userService.attendWorkshop(workshopId,userId);
-			
+			return userService.attendWorkshop(workshopId);
+		
 		} 
 		catch (Exception e)
 		{
-			
+		
 			return ResponseEntity.status(404).body(e.getMessage());
+
 		}
-		
-		
 	}
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+		
 }

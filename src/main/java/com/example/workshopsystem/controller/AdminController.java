@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.example.workshopsystem.dto.AdminDto;
 import com.example.workshopsystem.dto.RegistrationDto;
 import com.example.workshopsystem.dto.UserDto;
+import com.example.workshopsystem.dto.UsersDto;
 import com.example.workshopsystem.model.User;
 import com.example.workshopsystem.service.AdminService;
 import com.example.workshopsystem.service.UserService;
@@ -35,8 +36,14 @@ public class AdminController
 		return userService.addUser(user);
 		
 	}
-	@GetMapping("/viewUsers")
+	/*@GetMapping("/viewUsers")
 	public List<User> viewAllUserss()
+	{
+		return userService.viewAllUsers();
+		
+	}*/
+	@GetMapping("/viewUsers")
+	public List<UsersDto> viewAllUserss()
 	{
 		return userService.viewAllUsers();
 		
